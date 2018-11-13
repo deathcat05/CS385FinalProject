@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from restapi.views import  *
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'whatever', contentViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
+
+urlpatterns += router.urls
