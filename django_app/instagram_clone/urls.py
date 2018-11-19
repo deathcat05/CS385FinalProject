@@ -19,10 +19,11 @@ from restapi.views import  *
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'whatever', contentViewSet)
+router.register(r'content', ContentViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^tags/', TagsView.as_view())
 ]
 
 urlpatterns += router.urls

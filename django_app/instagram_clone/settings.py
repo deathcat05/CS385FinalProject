@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     # need to include
     'restapi', # our application
     'rest_framework',
+
+    # To run
+    # ./manage.py reset_migrations restapi
+    'reset_migrations', # to easily reset migrations
 ]
 
 MIDDLEWARE = [
