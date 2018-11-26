@@ -27,7 +27,7 @@ class Content(models.Model):
     # image = models.ImageField()
     description = models.TextField()
     tags = models.ManyToManyField(Tag, through='ContentTags', related_name='to_contents_tags')
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    # owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'content'
