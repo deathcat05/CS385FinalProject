@@ -4,6 +4,9 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 
+# For creating a UserExtended after the User model
+# is created.
+from django.db.models.signals import post_save
 # Create your models here.
 
 class Tag(models.Model):
@@ -16,6 +19,9 @@ class Tag(models.Model):
     class Meta:
         db_table = 'tag'
 
+    def __str__(self):
+        return "%s" % (self.tag)
+
 class Content(models.Model):
     """
         This  endpoint  also  allows  including  comments  and  tags.
@@ -24,10 +30,13 @@ class Content(models.Model):
     # ImageField(max_length=None, allow_empty_file=False, use_url=UPLOADED_FILES_USE_URL)
 
     # Not sure how to handle a picture for this
+    # class ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, **options)
     # image = models.ImageField()
     description = models.TextField()
     tags = models.ManyToManyField(Tag, through='ContentTags', related_name='to_contents_tags')
-    # owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # change the default value
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     class Meta:
         db_table = 'content'
@@ -50,3 +59,103 @@ class ContentTags(models.Model):
 
     class Meta:
         db_table = 'content_tags___'
+
+
+
+class UserExtended(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    followers = models.ManyToManyField('self', related_name='user_followers', symmetrical=False)
+    following = models.ManyToManyField('self', related_name='user_following', symmetrical=False)
+
+    def is_following(self, user_id):
+        return self.followers.all().filter(user__id=user_id).exists()
+
+    def follow_user(self, user_id):
+        other = UserExtended.objects.get(user__id=user_id)
+        if not self.is_following(user_id):
+            self.following.add(other)
+            self.save()
+            other.followers.add(self)
+            other.save()
+            return True
+
+        return False
+
+# Create a UserExtended instance for every User instance created
+def create_user_extended(sender, instance, created, *args, **kargs):
+    if created:
+        user_extended = UserExtended(user=instance)
+        user_extended.save()
+post_save.connect(create_user_extended, sender=User)
+# class SubscriptionUsers(models.Model):
+#     user_subscribee = models.ForeignKey(User,
+#                                        on_delete=models.DO_NOTHING,
+#                                        related_name='user_subscribee',
+#                                        null=True,
+#                                        blank=True,
+#                                        default=None,)
+#
+#     user_subscribes = models.ForeignKey(User,
+#                                         on_delete=models.DO_NOTHING,
+#                                         related_name='user_subscribes',
+#                                         null=True,
+#                                         blank=True,
+#                                         default=None,)
+#     # subscription = models.ForeignKey(Subscription,
+    #                                  on_delete=models.DO_NOTHING)
+
+
+# class SubscriptionTags(models.Model):
+#     user_subscribee = models.ForeignKey(User,
+#                                         on_delete=models.DO_NOTHING,
+#                                         related_name='user_tag_subscribee',
+#                                         null=True,
+#                                         blank=True,
+#                                         default=None,)
+#
+#     tag_subscribes = models.ForeignKey(Tag,
+#                                         on_delete=models.DO_NOTHING,
+#                                         related_name='tag_subscribes',
+#                                         null=True,
+#                                         blank=True,
+#                                         default=None,)
+
+# class Subscriptions(models.Model):
+    # user_followers = models.ManyToManyField('self', symmetrical=False, through=SubscriptionUsers, through_fields='user_subscribee', related_name='subscription_user_subscribee')
+    # user_follows = models.ManyToManyField('self', symmetrical=False, through=SubscriptionUsers, through_fields='user_subscribes', related_name='subscription_user_subscribes')
+#     # tags_follows = models.ManyToManyField(User, SubscriptionTags)
+
+
+
+
+
+
+
+
+
+# Were not going to post to this
+# class SubscriptionDetails(models.Model):
+#     followers = models.ManyToManyField(Subscription, related_name="followers")
+#     follows = models.ManyToManyField(Subscription, related_name="following")
+#
+#
+# class SubscriptionTags(models.Model):
+#     user = models.ForeignKey(User,
+#                              on_delete=models.DO_NOTHING)
+#
+#     tag = models.ForeignKey(Tag, on_delete=models.DO_NOTHING)
+
+# class Subscription(models.Model):
+#     pass
+    # user can subscribe to many subscriptions
+    # a subscription can have many users
+
+    # user can subscribe to a tag
+    # tag = models.ForeignKey(Tag,
+    #                         blank=True,
+    #                         null=True,
+    #                         on_delete=models.DO_NOTHING)
+
+
+
+

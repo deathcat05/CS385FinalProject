@@ -20,7 +20,8 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'content', ContentViewSet)
-
+router.register(r'subscriptions', SubscriptionsView)
+# router.register(r'subscriptions-detail', SubscripionDetailsView)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^tags/', TagsView.as_view()),
