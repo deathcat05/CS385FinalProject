@@ -9,3 +9,9 @@ after running make sure to start your virtualenv.
 
 ##### To run server
 ./runserver.sh
+
+#### If you delete your venv file on accident
+virtualenv venv # to create the file
+./install.sh
+
+#### Your venv file must be in the same directory as your install.sh
