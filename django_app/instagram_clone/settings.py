@@ -48,7 +48,23 @@ INSTALLED_APPS = [
     # To run
     # ./manage.py reset_migrations restapi
     'reset_migrations', # to easily reset migrations
+
+    # authentication
+    'rest_framework.authtoken',
+    'rest_auth',
+
+    # allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
 ]
+
+# django-rest-auth
+SITE_ID = 1
+
+# django-rest-auth
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,7 +107,7 @@ DATABASES = {
     }
 }
 
-
+# AUTH_USER_MODEL =
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 

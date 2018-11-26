@@ -11,7 +11,7 @@ from django.shortcuts import render
 # Create your views here.
 class ContentViewSet(viewsets.ModelViewSet):
     """
-    This is the format to follow fpor post:
+    This is the format to follow for post:
     {
     "tags": [
         {"tag": "some_hashtag"},
