@@ -55,9 +55,6 @@ class ContentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class UsernameUserIdSerializer(serializers.ModelSerializer):
-    # id = serializers.IntegerField()
-    # username = serializers.CharField(source='username')
-
     class Meta:
         model = User
         fields = ('id', 'username',)
@@ -70,47 +67,14 @@ class UsernameUserIdSerializerUserExtended(serializers.ModelSerializer):
         model = UserExtended
         fields = ('id', 'username',)
 
-class SubscriptionsSerializerPOST(serializers.ModelSerializer):
-    user = UsernameUserIdSerializer(read_only=True)
-    followers = UsernameUserIdSerializer(read_only=True)
-    following = UsernameUserIdSerializer()
-
-    class Meta:
-        model = UserExtended
-        fields = '__all__'
-
-    def create(self, validated_data):
-        print("CREATE CALLED")
-
 class SubscriptionsSerializer(serializers.ModelSerializer):
     user = UsernameUserIdSerializer(read_only=True)
     followers = UsernameUserIdSerializerUserExtended(many=True, read_only=True)
     following = UsernameUserIdSerializerUserExtended(many=True)
 
-    # def create(self, validated_data):
-        # print("inside create in serializer")
 
     class Meta:
         model = UserExtended
         fields = '__all__'
         read_only_fields = ('user', 'followers',)
-
-# class SubscriptionDetailsSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = SubscriptionDetails
-#         fields = '__all__'
-
-# class SubscriptionSerializer(serializers.ModelSerializer):
-#     # user_subscribee = serializers.CharField(max_length=100, source='user_subscribee.username')
-#     # user_subscribes = serializers.CharField(max_length=100, source='user_subscribes.username')
-#
-#     class Meta:
-#         model = Subscription
-#         fields = '__all__'
-#         read_only_fields = ('user_subscribee',)
-#
-#     def create(self, validated_data):
-#         user = self.context['request'].user
-#         subscription = Subscription.objects.create(user_subscribee=user, **validated_data)
-#         return subscription
 #

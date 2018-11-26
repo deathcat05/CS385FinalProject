@@ -66,6 +66,7 @@ class UserExtended(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     followers = models.ManyToManyField('self', related_name='user_followers', symmetrical=False)
     following = models.ManyToManyField('self', related_name='user_following', symmetrical=False)
+    # tags = models.ManyToManyField('self', through=Tag)
 
     def is_following(self, user_id):
         return self.followers.all().filter(user__id=user_id).exists()
@@ -87,75 +88,3 @@ def create_user_extended(sender, instance, created, *args, **kargs):
         user_extended = UserExtended(user=instance)
         user_extended.save()
 post_save.connect(create_user_extended, sender=User)
-# class SubscriptionUsers(models.Model):
-#     user_subscribee = models.ForeignKey(User,
-#                                        on_delete=models.DO_NOTHING,
-#                                        related_name='user_subscribee',
-#                                        null=True,
-#                                        blank=True,
-#                                        default=None,)
-#
-#     user_subscribes = models.ForeignKey(User,
-#                                         on_delete=models.DO_NOTHING,
-#                                         related_name='user_subscribes',
-#                                         null=True,
-#                                         blank=True,
-#                                         default=None,)
-#     # subscription = models.ForeignKey(Subscription,
-    #                                  on_delete=models.DO_NOTHING)
-
-
-# class SubscriptionTags(models.Model):
-#     user_subscribee = models.ForeignKey(User,
-#                                         on_delete=models.DO_NOTHING,
-#                                         related_name='user_tag_subscribee',
-#                                         null=True,
-#                                         blank=True,
-#                                         default=None,)
-#
-#     tag_subscribes = models.ForeignKey(Tag,
-#                                         on_delete=models.DO_NOTHING,
-#                                         related_name='tag_subscribes',
-#                                         null=True,
-#                                         blank=True,
-#                                         default=None,)
-
-# class Subscriptions(models.Model):
-    # user_followers = models.ManyToManyField('self', symmetrical=False, through=SubscriptionUsers, through_fields='user_subscribee', related_name='subscription_user_subscribee')
-    # user_follows = models.ManyToManyField('self', symmetrical=False, through=SubscriptionUsers, through_fields='user_subscribes', related_name='subscription_user_subscribes')
-#     # tags_follows = models.ManyToManyField(User, SubscriptionTags)
-
-
-
-
-
-
-
-
-
-# Were not going to post to this
-# class SubscriptionDetails(models.Model):
-#     followers = models.ManyToManyField(Subscription, related_name="followers")
-#     follows = models.ManyToManyField(Subscription, related_name="following")
-#
-#
-# class SubscriptionTags(models.Model):
-#     user = models.ForeignKey(User,
-#                              on_delete=models.DO_NOTHING)
-#
-#     tag = models.ForeignKey(Tag, on_delete=models.DO_NOTHING)
-
-# class Subscription(models.Model):
-#     pass
-    # user can subscribe to many subscriptions
-    # a subscription can have many users
-
-    # user can subscribe to a tag
-    # tag = models.ForeignKey(Tag,
-    #                         blank=True,
-    #                         null=True,
-    #                         on_delete=models.DO_NOTHING)
-
-
-
-

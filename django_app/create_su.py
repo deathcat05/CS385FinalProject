@@ -11,6 +11,10 @@ def create_user(username, password='cs385password', is_root=False):
 
 
 create_user('root', is_root=True)
+create_user('ryanpetit')
+create_user('dre')
+create_user('joe')
+create_user('catherine')
 
 for i in range(1, 10 + 1):
     username = 'test_user_' + str(i)
