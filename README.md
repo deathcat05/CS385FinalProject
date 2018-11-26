@@ -1,5 +1,8 @@
 # CS385 Instagram clone
 
+### To get everything started at once
+source install.sh
+
 ##### To import dependencies into your virtualenv  
 source venv/bin/activate  #activate venv  
 pip install -r requirements.txt

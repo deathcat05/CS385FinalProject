@@ -1,5 +1,9 @@
 #! /bin/bash
 
+if [ ! -d venv ]; then
+    virtualenv venv;
+fi
+
 source venv/bin/activate && \  #activate venv  
 pip install -r requirements.txt && \
 cd django_app && \
