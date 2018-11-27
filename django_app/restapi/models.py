@@ -66,7 +66,7 @@ class UserExtended(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     followers = models.ManyToManyField('self', related_name='user_followers', symmetrical=False)
     following = models.ManyToManyField('self', related_name='user_following', symmetrical=False)
-    # tags = models.ManyToManyField('self', through=Tag)
+    tags = models.ManyToManyField(Tag, through='UserTag')
 
     def is_following(self, user_id):
         return self.followers.all().filter(user__id=user_id).exists()
@@ -88,3 +88,7 @@ def create_user_extended(sender, instance, created, *args, **kargs):
         user_extended = UserExtended(user=instance)
         user_extended.save()
 post_save.connect(create_user_extended, sender=User)
+
+class UserTag(models.Model):
+    user = models.ForeignKey(UserExtended, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

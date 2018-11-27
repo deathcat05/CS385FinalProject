@@ -46,19 +46,15 @@ class TagsView(generics.ListAPIView):
 class SubscriptionsView(viewsets.ModelViewSet):
     """
     {
-        "following": {
+        "user": {
             "id": 1
         }
     }
 
-    Returns:
-    If already following:
-    {
-    "followed": false
-    }
-    If not already following:
-    {
-    "followed": True
+     {
+        "tag": {
+            "id": 1
+        }
     }
     """
     queryset = UserExtended.objects.all()
@@ -74,7 +70,22 @@ class SubscriptionsView(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         follower = request.user
-        following = request.data.get('following').get('id')
-        follower = UserExtended.objects.get(user=follower.id)
-        followed = UserExtended.objects.get(user=follower).follow_user(user_id=following)
-        return Response({"followed": followed})
+        following = request.data.get('user')
+        if following:
+            following = following.get('id')
+            follower = UserExtended.objects.get(user=follower.id)
+            followed = UserExtended.objects.get(user=follower).follow_user(user_id=following)
+            return Response({"followed": followed})
+
+        tag_id = request.data.get('tag').get('id')
+        if tag_id:
+            tag = Tag.objects.get(pk=tag_id)
+            user = UserExtended.objects.get(pk=follower.id)
+            user_tag = UserTag.objects.filter(user=user, tag=tag)
+            if not user_tag.exists():
+                UserTag.objects.create(user=user, tag=tag)
+                return Response({"tag": True})
+            else:
+                return Response({"tag": "Already following"})
+
+        return Response({"Error": "Unable to follow"})
