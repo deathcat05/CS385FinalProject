@@ -66,11 +66,19 @@ class SubscriptionsView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
 
     def list(self, request, *args, **kwargs):
-        subscriptions = UserExtended.objects.filter(user=request.user.id)
-        # For debugging
-        # subscriptions = UserExtended.objects.all()
-        subscription_serializer = SubscriptionsSerializer(subscriptions, many=True)
-        return Response(subscription_serializer.data)
+        ##TRYING POST FOR USER
+        if request.method == 'GET':
+            subscriptions = UserExtended.objects.filter(user=request.user.id)
+            # For debugging
+            # subscriptions = UserExtended.objects.all()
+            subscription_serializer = SubscriptionsSerializer(subscriptions, many=True)
+            return Response(subscription_serializer.data)
+        elif request.method == 'POST':
+            subscription_serializer = SubscriptionSerializer(date=request.data)
+            if subscription_serializer.is_valid():
+                subscription_serializer.save()
+                return Response(subscription_serializer.data, status=status.HTTP_201_CREATED)
+            return Response(subscription_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def create(self, request, *args, **kwargs):
         follower = request.user
@@ -78,3 +86,4 @@ class SubscriptionsView(viewsets.ModelViewSet):
         follower = UserExtended.objects.get(user=follower.id)
         followed = UserExtended.objects.get(user=follower).follow_user(user_id=following)
         return Response({"followed": followed})
+
