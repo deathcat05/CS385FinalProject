@@ -31,7 +31,7 @@ class Content(models.Model):
 
     # Not sure how to handle a picture for this
     # class ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, **options)
-    # image = models.ImageField()
+    image = models.ImageField()
     description = models.TextField()
     tags = models.ManyToManyField(Tag, through='ContentTags', related_name='to_contents_tags')
 
