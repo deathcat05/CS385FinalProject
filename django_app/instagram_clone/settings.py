@@ -58,7 +58,20 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
+
+    # storage
+    'storages',
 ]
+
+
+# amazon S3
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY', '')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
+AWS_STORAGE_BUCKET_NAME = 'cs385finalproj'
+STATIC_URL = 'https://s3-us-west-2.amazonaws.com/cs385finalproj/'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_DEFAULT_ACL = None
 
 # django-rest-auth
 SITE_ID = 1
@@ -144,4 +157,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
