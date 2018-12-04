@@ -5,13 +5,10 @@ chardet==3.0.4
 Django==1.11.16
 django-allauth==0.38.0
 django-reset-migrations==0.3.1
-django-resized==0.3.9
 django-rest-auth==0.9.3
 django-storages==1.7.1
-django-thumbs-v2==0.4.1
 djangorestframework==3.9.0
 docutils==0.14
-easy-thumbnails==2.5
 futures==3.2.0
 idna==2.7
 jmespath==0.9.3

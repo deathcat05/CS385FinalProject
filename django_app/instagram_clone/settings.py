@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'storages',
 
     # photo resizing
-    'easy_thumbnails',
     'sorl.thumbnail',
 ]
 
@@ -141,13 +140,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-THUMBNAIL_ALIASES = {
-    '': {
-        'avatar': {'size': (50, 50), 'crop': True},
-    },
-}
 
 
 # Internationalization
