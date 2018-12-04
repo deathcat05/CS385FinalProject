@@ -3,26 +3,11 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
-
-# For creating a UserExtended after the User model
-# is created.
 from django.db.models.signals import post_save
-# Create your models here.
-
-# from easy_thumbnails.fields import ThumbnailerImageField
-# from easy_thumbnails.files import get_thumbnailer
-
-# from django_resized import ResizedImageField
-
 from sorl.thumbnail import ImageField, get_thumbnail
 
-# from PIL import Image
-
 class Tag(models.Model):
-    # id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True)
-    # CharField(max_length=None, min_length=None, allow_blank=False, trim_whitespace=True)
-    # trim_whitespace - trims leading and trailing whitespace
     tag = models.CharField(max_length=255)
 
     class Meta:
