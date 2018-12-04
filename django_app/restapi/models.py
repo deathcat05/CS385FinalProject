@@ -9,6 +9,15 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 # Create your models here.
 
+# from easy_thumbnails.fields import ThumbnailerImageField
+# from easy_thumbnails.files import get_thumbnailer
+
+# from django_resized import ResizedImageField
+
+from sorl.thumbnail import ImageField, get_thumbnail
+
+# from PIL import Image
+
 class Tag(models.Model):
     # id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -27,16 +36,18 @@ class Content(models.Model):
         This  endpoint  also  allows  including  comments  and  tags.
     """
     created = models.DateTimeField(auto_now_add=True)
-    # ImageField(max_length=None, allow_empty_file=False, use_url=UPLOADED_FILES_USE_URL)
-
-    # Not sure how to handle a picture for this
-    # class ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, **options)
-    image = models.ImageField()
-    description = models.TextField()
-    tags = models.ManyToManyField(Tag, through='ContentTags', related_name='to_contents_tags')
+    original_image = models.ImageField(blank=False)
+    resized_image = models.ImageField(null=True)
+    tags = models.ManyToManyField(Tag, through='ContentTags', related_name='to_contents_tags', null=True, blank=True)
 
     # change the default value
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+
+    def save(self, *args, **kwargs):
+        if self.original_image:
+            self.resized_image = get_thumbnail(self.original_image, '500x600', quality=99, format='JPEG').name
+        super(Content, self).save(*args, **kwargs)
+
 
     class Meta:
         db_table = 'content'
