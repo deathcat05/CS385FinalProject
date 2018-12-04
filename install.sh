@@ -7,6 +7,7 @@ fi
 source venv/bin/activate && \  #activate venv
 pip install -r requirements.txt && \
 cd django_app && \
+rm -f restapi/migrations/!(__init__.*) && \
 rm -f db.sqlite3 && \
 ./manage.py makemigrations && \
 ./manage.py migrate && \
