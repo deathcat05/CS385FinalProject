@@ -19,3 +19,5 @@ RUN pip instiall requirements.txt
 ADD . /django_app/ 
 
 EXPOSE 8888
+
+CMD [ "python", "./manage.py runserver 0.0.0.0:8000" ]
