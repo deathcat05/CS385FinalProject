@@ -1,4 +1,4 @@
-"""instagram_clone URL Configuration
+"""hello URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
@@ -13,20 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib import admin
-from restapi.views import  *
-from rest_framework import routers
 
-router = routers.DefaultRouter()
-router.register(r'content', ContentViewSet)
-router.register(r'subscriptions', SubscriptionsView)
-# router.register(r'subscriptions-detail', SubscripionDetailsView)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^tags/', TagsView.as_view()),
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 ]
-
-urlpatterns += router.urls

@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  djangoapp:
+    build: .
+    volumes:
+      - .:/opt/services/djangoapp/src
+    ports:
+      - 8000:8000
