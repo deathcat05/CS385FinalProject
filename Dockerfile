@@ -9,11 +9,13 @@ WORKDIR /opt/services/djangoapp/src
 RUN pip install gunicorn
 
 # copy our project code
-#COPY django_app /opt/services/djangoapp/src
-#COPY requirements.txt /opt/services/djangoapp/src
 COPY . /opt/services/djangoapp/src
 
 RUN pip install -r requirements.txt
+
+# This line will be deleted 
+RUN ./django_app/manage.py makemigrations && ./django_app/manage.py migrate
+
 # expose the port 8000
 EXPOSE 8000
 
