@@ -63,6 +63,9 @@ INSTALLED_APPS = [
 
     # photo resizing
     'sorl.thumbnail',
+
+    # Mysql
+    #'django_mysql',
 ]
 
 
@@ -116,9 +119,17 @@ WSGI_APPLICATION = 'instagram_clone.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
+    #'default': {
+     #   'ENGINE': 'django.db.backends.sqlite3',
+      #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'instaclone',
+        'USER': 'root',
+        'PASSWORD': 'instaclone',
+        'HOST': '206.189.165.126',
+        'PORT': '3306',
     }
 }
 
