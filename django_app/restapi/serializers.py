@@ -53,7 +53,7 @@ class ContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Content
         fields = '__all__'
-        read_only_fields = ('resized_image',)
+        read_only_fields = ('thumbnail', 'medium', 'default', 'owner')
 
 class UsernameUserIdSerializer(serializers.ModelSerializer):
     class Meta:

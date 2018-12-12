@@ -18,6 +18,11 @@ from django.contrib import admin
 from restapi.views import  *
 from rest_framework import routers
 
+from rest_auth.views import (
+    LoginView, LogoutView, UserDetailsView, PasswordChangeView,
+    PasswordResetView, PasswordResetConfirmView
+)
+
 router = routers.DefaultRouter()
 router.register(r'content', ContentViewSet)
 router.register(r'subscriptions', SubscriptionsView)
@@ -25,8 +30,8 @@ router.register(r'subscriptions', SubscriptionsView)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^tags/', TagsView.as_view()),
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^account/', include('rest_auth.urls')),
+    url(r'^account/register/', include('rest_auth.registration.urls')),
 ]
 
 urlpatterns += router.urls
