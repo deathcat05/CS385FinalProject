@@ -17,6 +17,20 @@ class Tag(models.Model):
     def __str__(self):
         return "%s" % (self.tag)
 
+class Images(models.Model):
+    original_image = models.ImageField(blank=False)
+    thumbnail = models.ImageField()
+    medium = models.ImageField()
+    default = models.ImageField()
+
+
+    def save(self, *args, **kwargs):
+        if self.original_image:
+            self.default = get_thumbnail(self.original_image, '1080x1080', quality=99, format='JPEG').name
+            self.medium = get_thumbnail(self.original_image, '612x612', quality=99, format='JPEG').name
+            self.thumbnail = get_thumbnail(self.original_image, '161x161', quality=99, format='JPEG').name
+        super(Images, self).save(*args, **kwargs)
+
 class Content(models.Model):
     """
         This  endpoint  also  allows  including  comments  and  tags.
@@ -26,21 +40,8 @@ class Content(models.Model):
 
     # change the default value
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-
     description = models.CharField(max_length=255, null=True)
-
-    # images
-    original_image = models.ImageField(blank=False)
-    thumbnail = models.ImageField()
-    medium = models.ImageField()
-    default = models.ImageField()
-
-    def save(self, *args, **kwargs):
-        if self.original_image:
-            self.default = get_thumbnail(self.original_image, '1080x1080', quality=99, format='JPEG').name
-            self.medium = get_thumbnail(self.original_image, '612x612', quality=99, format='JPEG').name
-            self.thumbnail = get_thumbnail(self.original_image, '161x161', quality=99, format='JPEG').name
-        super(Content, self).save(*args, **kwargs)
+    images = models.OneToOneField(Images)
 
 
     class Meta:
