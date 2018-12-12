@@ -30,13 +30,20 @@ class ContentViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated, ]
 
     def create(self, request, *args, **kwargs):
-        # we are going to create the Content first
-        tags_data = json.loads(request.data['tags'])
-        content_serializer = ContentSerializer(data=request.data, context=tags_data)
+        tags_data = request.data.pop('tag')
+        content_serializer = ContentSerializer(data=request.data)
         content_serializer.is_valid(raise_exception=True)
-        content_serializer.save()
+        content = content_serializer.save()
+
+        for tag in tags_data:
+            tag = Tag.objects.get_or_create(tag=tag)
+            ContentTags.objects.create(content=content, tag=tag[0])
+
+
+
         
-        return Response({"Message": "Upload Success"})
+        return Response({"id": content.id})
+        # return Response({"Message": "Upload Success"})
 
 class TagsView(generics.ListAPIView):
     """

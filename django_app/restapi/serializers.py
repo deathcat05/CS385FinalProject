@@ -20,9 +20,9 @@ class ContentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Must pop off the tags data first
         # tags_data = validated_data.pop('tags')
-        print ("printing context...")
+        print ("printing validated_data...")
         # print(validated_data)
-        print (self.context)
+        print (validated_data)
 
         # Then we can create the content object
         content = Content.objects.create(**validated_data)
