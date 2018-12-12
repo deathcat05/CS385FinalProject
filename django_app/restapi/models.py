@@ -27,19 +27,20 @@ class Content(models.Model):
     # change the default value
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
+    description = models.CharField(max_length=255, null=True)
 
     # images
-    # original_image = models.ImageField(blank=False)
-    # thumbnail = models.ImageField()
-    # medium = models.ImageField()
-    # default = models.ImageField()
+    original_image = models.ImageField(blank=False)
+    thumbnail = models.ImageField()
+    medium = models.ImageField()
+    default = models.ImageField()
 
-    # def save(self, *args, **kwargs):
-    #     if self.original_image:
-    #         self.default = get_thumbnail(self.original_image, '1080x1080', quality=99, format='JPEG').name
-    #         self.medium = get_thumbnail(self.original_image, '612x612', quality=99, format='JPEG').name
-    #         self.thumbnail = get_thumbnail(self.original_image, '161x161', quality=99, format='JPEG').name
-    #     super(Content, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if self.original_image:
+            self.default = get_thumbnail(self.original_image, '1080x1080', quality=99, format='JPEG').name
+            self.medium = get_thumbnail(self.original_image, '612x612', quality=99, format='JPEG').name
+            self.thumbnail = get_thumbnail(self.original_image, '161x161', quality=99, format='JPEG').name
+        super(Content, self).save(*args, **kwargs)
 
 
     class Meta:

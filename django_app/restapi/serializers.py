@@ -19,13 +19,16 @@ class ContentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Must pop off the tags data first
-        tags_data = validated_data.pop('tags')
+        # tags_data = validated_data.pop('tags')
+        print ("printing context...")
+        # print(validated_data)
+        print (self.context)
 
         # Then we can create the content object
         content = Content.objects.create(**validated_data)
-
-        # This is iterating over a list of OrderedDicts
-        for tag in tags_data:
+        # # This is iterating over a list of OrderedDicts
+        for tag in self.context:
+            print (tag['tag'])
             # print(tag['tag']) # will print the tag string
             # print(tag) # will print the OrderedDict
             # print(tag.tag) # will product err - obj has no attribute tag ...
@@ -45,7 +48,9 @@ class ContentSerializer(serializers.ModelSerializer):
             # tag = Tag.objects.get_or_create(tag)[0].tag # CharField
         
             # Populate the M:N table
+            print "creating contenttags..."
             ContentTags.objects.create(content=content, tag=tag)
+            print "after contenttags..."
 
 
         return content
