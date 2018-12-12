@@ -24,10 +24,7 @@ SECRET_KEY = 'l*g#f+kqs@^9w@&c^m@6(+(oz0v*c@m-pm8(&lxtpo^6-2zx0+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = [
-    "*",
-]
+ALLOWED_HOSTS = ['*'] # allow all
 
 
 # Application definition
@@ -95,6 +92,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'instagram_clone.urls'
+
+# token authentication
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    )
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#     )
+}
 
 TEMPLATES = [
     {
