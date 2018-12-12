@@ -27,11 +27,12 @@ class ContentViewSet(viewsets.ModelViewSet):
     """
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
     def create(self, request, *args, **kwargs):
+        # print(request.user.id)
         tags_data = request.data.pop('tag')
-        content_serializer = ContentSerializer(data=request.data)
+        content_serializer = ContentSerializer(data=request.data, context={"owner": request.user})
         content_serializer.is_valid(raise_exception=True)
         content = content_serializer.save()
 
@@ -43,7 +44,6 @@ class ContentViewSet(viewsets.ModelViewSet):
 
         
         return Response({"id": content.id})
-        # return Response({"Message": "Upload Success"})
 
 class TagsView(generics.ListAPIView):
     """
