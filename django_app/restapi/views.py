@@ -13,10 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 import json
 
-class ImagesView(generics.CreateAPIView):
-    queryset = Images.objects.all()
-    serializer_class = ImagesSerializer
-
 class ContentViewSet(viewsets.ModelViewSet):
     """
     This is the format to follow for post:
@@ -25,8 +21,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         {"tag": "some_hashtag"},
         {"tag": "another_hashtag"}
     ],
-    "description": "Description",
-    "images": 2
+    "description": "Description"
     }
 
     """
@@ -36,12 +31,12 @@ class ContentViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         # we are going to create the Content first
-        # tags_data = json.loads(request.data['tags'])
-        content_serializer = ContentSerializer(data=request.data)
+        tags_data = json.loads(request.data['tags'])
+        content_serializer = ContentSerializer(data=request.data, context=tags_data)
         content_serializer.is_valid(raise_exception=True)
         content_serializer.save()
-
-        return Response(content_serializer.data)
+        
+        return Response({"Message": "Upload Success"})
 
 class TagsView(generics.ListAPIView):
     """

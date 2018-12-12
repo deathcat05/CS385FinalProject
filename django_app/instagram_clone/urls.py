@@ -28,7 +28,6 @@ router.register(r'content', ContentViewSet)
 router.register(r'subscriptions', SubscriptionsView)
 # router.register(r'subscriptions-detail', SubscripionDetailsView)
 urlpatterns = [
-    url(r'images/', ImagesView.as_view()),
     url(r'^admin/', admin.site.urls),
     url(r'^tags/', TagsView.as_view()),
     url(r'^account/', include('rest_auth.urls')),

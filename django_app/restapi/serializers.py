@@ -13,29 +13,21 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('id', 'tag',)
 
-class ImagesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Images
-        fields = '__all__'
-        read_only_fields = ('thumbnail', 'medium', 'default',)
-
 
 class ContentSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, required=False)
-    images = ImagesSerializer()
 
     def create(self, validated_data):
         # Must pop off the tags data first
-        tags_data = validated_data.pop('tags')
-
-        print ("printing context... tags_data")
-        print(tags_data)
-        # print (self.context)
+        # tags_data = validated_data.pop('tags')
+        print ("printing context...")
+        # print(validated_data)
+        print (self.context)
 
         # Then we can create the content object
         content = Content.objects.create(**validated_data)
         # # This is iterating over a list of OrderedDicts
-        for tag in tags_data:
+        for tag in self.context:
             print (tag['tag'])
             # print(tag['tag']) # will print the tag string
             # print(tag) # will print the OrderedDict
