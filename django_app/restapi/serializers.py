@@ -13,12 +13,17 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('id', 'tag',)
 
-
 class ContentSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, required=False)
-
+    owner = UsernameUserIdSerializer(read_only=True)
     def create(self, validated_data):
         return Content.objects.create(owner=self.context.get('owner'), **validated_data)
+
+    def update(self, instance, validated_data):
+        instance.original_image = validated_data.get('original_image', instance.original_image)
+        instance.description = validated_data.get('description', instance.description)
+        instance.save()
+        return instance
 
     class Meta:
         model = Content

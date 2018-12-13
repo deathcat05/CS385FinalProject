@@ -6,13 +6,25 @@
 ## Authentication
 The key you are returned from `/account/register` and `/account/login` is your Authorization Token<br>
 Insert it into your header as:<br>
-`Authorization:Token 48c2e4754bc3d765c1cc611681f5b7492bec1f73`<br>
+`Authorization:Token <token>`<br>
 
 ## Endpoints
 `POST /account/register`<br>
 `POST /account/login`<br>
 `POST /account/logout`<br>
 `POST /content`
+- To use this endpoint enter the following into postman
+- Values are represented as `<key>:<value>`
+  - Header
+    - `Content-Type:multipart/form-data`
+    - `Authorization:Token <token>`
+  - Body
+    - `original_image: /path/to/your/jpg`
+    - `tag:tag1`
+    - `tag:tag2`
+    - `tag:tagN` (last tag)
+      - You can have as many tags as you want
+    - `description:A description`
 
 ## To import dependencies into your virtualenv  
 `source venv/bin/activate  #activate venv && pip install -r requirements.txt`<br>
@@ -21,3 +33,6 @@ or alternatively, run `source install.sh`<br>
 
 ## To run server
 `./runserver.sh`
+
+## TODO
+Talk about authentication

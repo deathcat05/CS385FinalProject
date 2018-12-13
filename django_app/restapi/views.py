@@ -5,7 +5,8 @@ from django.shortcuts import get_object_or_404
 from restapi.serializers import *
 from rest_framework import viewsets, generics
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from django.shortcuts import render
 
@@ -27,23 +28,53 @@ class ContentViewSet(viewsets.ModelViewSet):
     """
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
-    permission_classes = [IsAuthenticated, ]
 
     def create(self, request, *args, **kwargs):
         # print(request.user.id)
-        tags_data = request.data.pop('tag')
+        tags_data = request.data.pop('tag', None)
+        content = self.content_serializer(request)
+        self.create_tags(tags_data, content)
+
+        return Response({"id": content.id})
+
+    def update(self, request, *args, **kwargs):
+        request_data = request.data.copy()
+        new_tags_data = request_data.pop('tag', None)
+        content = Content.objects.get(pk=kwargs['pk'])
+        
+        # Updating content
+        if content.owner == request.user:
+            content_serializer = ContentSerializer(content, data=request.data)
+            original_tags_data = ContentTags.objects.filter(content=content)
+            original_tags_data.delete() # delete the orig tags
+            self.create_tags(new_tags_data, content)
+        
+            return Response({"id": content.id})
+        return Response({"Message": "Permission Denied"}, status=status.HTTP_403_FORBIDDEN)
+
+    def get_permissions(self):
+        if ( 
+            self.action == 'create' or 
+            self.action == 'update' or 
+            self.action == 'partial_update' or
+            self.action == 'destroy'
+          ):
+            permission_classes = [IsAuthenticated, ]
+        else:
+            permission_classes = [AllowAny, ]
+        return [permission() for permission in permission_classes]
+
+    def content_serializer(self, request):
         content_serializer = ContentSerializer(data=request.data, context={"owner": request.user})
         content_serializer.is_valid(raise_exception=True)
-        content = content_serializer.save()
+        return content_serializer.save()
 
+    def create_tags(self, tags_data, content):
+        if tags_data is None:
+            return
         for tag in tags_data:
             tag = Tag.objects.get_or_create(tag=tag)
             ContentTags.objects.create(content=content, tag=tag[0])
-
-
-
-        
-        return Response({"id": content.id})
 
 class TagsView(generics.ListAPIView):
     """
