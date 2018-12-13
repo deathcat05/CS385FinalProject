@@ -146,8 +146,7 @@ class FeedView(generics.ListAPIView):
         # Get a list of content
         user = UserExtended.objects.get(user=request.user)
         users_following = user.get_following()
-        # content = Content.objects.filter(owner=users_following)
-        print users_following[0].user
+
         if users_following is not None:
             content = Content.objects.filter(owner=users_following[0].user)
         for i in users_following:
@@ -159,8 +158,22 @@ class FeedView(generics.ListAPIView):
         for i in user_tags:
             content = content | Content.objects.filter(tags=i)
 
-        
         content = content.distinct().order_by("-created")
         content_serializer = ContentSerializer(content, many=True)
-        print content
         return Response({"content": content_serializer.data})
+
+class SearchView(generics.CreateAPIView):
+    """
+    {"search": "string"}
+    """
+    queryset = Content.objects.all()
+    serializer_class = ContentSerializer
+
+    def create(self, request, *args, **kwargs):
+        search = request.data.pop('search', None)
+        content = Content.objects.filter(description__icontains=search) | Content.objects.filter(tags__tag__icontains=search)
+        content = content.distinct().order_by("-created")
+        if content:
+            content_serializer = ContentSerializer(content, many=True)
+            return Response({"results": content_serializer.data})
+        return Response({"results": None})

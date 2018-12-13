@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^subscriptions/subscribers/user/(?P<pk>[0-9]+)', SubscribersView.as_view()),
     url(r'^subscriptions/subscribers/tag/(?P<tag>[0-9]+)', TagSubscribersView.as_view()),
     url(r'^feed/', FeedView.as_view()),
+    url(r'search/', SearchView.as_view())
 ]
 
 urlpatterns += router.urls
