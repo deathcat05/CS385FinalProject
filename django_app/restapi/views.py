@@ -16,15 +16,8 @@ import json
 
 class ContentViewSet(viewsets.ModelViewSet):
     """
-    This is the format to follow for post:
-    {
-    "tags": [
-        {"tag": "some_hashtag"},
-        {"tag": "another_hashtag"}
-    ],
-    "description": "Description"
-    }
-
+    This is only to be used with a multipart/form-data
+    Read the README.md for the specs
     """
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
@@ -78,7 +71,7 @@ class ContentViewSet(viewsets.ModelViewSet):
 
 class TagsView(generics.ListAPIView):
     """
-    This is only used for viewing purposes.
+    This is only used for viewing/debugging purposes.
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
@@ -129,3 +122,8 @@ class SubscriptionsView(viewsets.ModelViewSet):
                 return Response({"tag": "Already following"})
 
         return Response({"Error": "Unable to follow"})
+
+class SubscribersView(generics.RetrieveAPIView):
+    queryset = UserExtended.objects.filter()
+    serializer_class = SubscribersSerializer
+

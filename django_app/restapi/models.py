@@ -52,13 +52,6 @@ class ContentTags(models.Model):
     # and a specific tag can be
     # associated with multiple
     # content.
-
-    # on_delete:
-    #   - Just an image is removed we dont want to remove the tag because
-    #       other images can be using it
-    #   - Because this table is a lookup table connecting the tag and content
-    #       if something is deleted from this table it's most likely a tag
-    #       and we always want to keep tags intact.
     tag = models.ForeignKey(Tag, on_delete=models.DO_NOTHING, related_name="content_tag")
     content = models.ForeignKey(Content, on_delete=models.DO_NOTHING, related_name="content")
 

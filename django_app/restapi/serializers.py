@@ -53,3 +53,11 @@ class SubscriptionsSerializer(serializers.ModelSerializer):
         model = UserExtended
         fields = '__all__'
         read_only_fields = ('user', 'followers',)
+
+class SubscribersSerializer(serializers.ModelSerializer):
+    # tags = TagSerializer(many=True, read_only=True)
+    followers = UsernameUserIdSerializerUserExtended(many=True, read_only=True)
+
+    class Meta:
+        model = UserExtended
+        fields = ('followers',)

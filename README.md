@@ -13,8 +13,10 @@ Insert it into your header as:<br>
 `POST /account/login`<br>
 `POST /account/logout`<br>
 `POST /content`
-- To use this endpoint enter the following into postman
+`PUT /content`
+- To use `PUT /content` or `POST /content` endpoints enter the following into postman
 - Values are represented as `<key>:<value>`
+- <b>This must be used as `multipart/form-data`</b>
   - Header
     - `Content-Type:multipart/form-data`
     - `Authorization:Token <token>`
@@ -28,11 +30,13 @@ Insert it into your header as:<br>
 
 ## To import dependencies into your virtualenv  
 `source venv/bin/activate  #activate venv && pip install -r requirements.txt`<br>
-<b>Your venv file must be in the project root directory `~CS385FinalProject`</b><br><br>
+<b>Your venv file must be in the project root directory `~/CS385FinalProject/`</b><br><br>
 or alternatively, run `source install.sh`<br>
 
 ## To run server
 `./runserver.sh`
 
 ## TODO
-Talk about authentication
+Talk about authentication<br>
+Make tags one word?<br>
+Dont allow users to access other endpoints<br>
