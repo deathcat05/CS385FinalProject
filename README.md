@@ -1,4 +1,6 @@
-# CS385 Instagram clone
+## Docker 
+The Django application in this directory should be ignored, it's only for testing.
+
 
 ## To get everything started at once
 `source install.sh`
