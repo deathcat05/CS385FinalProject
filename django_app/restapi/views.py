@@ -7,6 +7,7 @@ from rest_framework import viewsets, generics
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.views import APIView
 
 from django.shortcuts import render
 
@@ -131,9 +132,37 @@ class TagSubscribersView(generics.ListAPIView):
     lookup_field = 'tag'
     queryset = UserTag.objects.filter()
     serializer_class = UserTagSerializer
-    
+
     def get_queryset(self):
         tag = self.kwargs.get('tag', None)
         users = UserTag.objects.filter(tag=tag) # we have all the users associated with the tag
         return users
 
+class FeedView(generics.ListAPIView):
+    queryset = UserExtended.objects.all()
+    serializer_class = FeedSerializer
+
+    def list(self, request, *args, **kwargs):
+        # Get a list of content
+        users_following = UserExtended.objects.get(user=request.user).get_following()
+        # content = Content.objects.filter(owner=users_following)
+        print users_following[0].user
+        if users_following is not None:
+            content = Content.objects.filter(owner=users_following[0].user)
+        for i in users_following:
+            content = content | Content.objects.filter(owner=i.user)
+
+        
+        content = content.order_by("-created")
+        content_serializer = ContentSerializer(content, many=True)
+        print content
+        return Response({"content": content_serializer.data})
+
+        # for users in user_following:
+
+
+    # def get_queryset(self):
+        # return UserExtended.objects.filter(pk=1)
+
+    
+        # return super(FeedView, self).get_queryset()

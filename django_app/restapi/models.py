@@ -78,6 +78,12 @@ class UserExtended(models.Model):
             other.save()
             return True
 
+    def get_followers(self):
+        return self.followers.all()
+    
+    def get_following(self):
+        return self.following.all()
+
         return False
 
 # Create a UserExtended instance for every User instance created

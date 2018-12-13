@@ -66,3 +66,9 @@ class UserTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTag
         fields = ('user',)
+
+class FeedSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserExtended
+        fields = ('tags', 'following')
