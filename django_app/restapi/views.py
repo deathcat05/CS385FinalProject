@@ -157,10 +157,12 @@ class FeedView(generics.ListAPIView):
             content = Content.objects.filter(tags=user_tags[0])
         for i in user_tags:
             content = content | Content.objects.filter(tags=i)
-
-        content = content.distinct().order_by("-created")
-        content_serializer = ContentSerializer(content, many=True)
-        return Response({"content": content_serializer.data})
+        if content:
+            content = content.distinct().order_by("-created")
+            content_serializer = ContentSerializer(content, many=True)
+            return Response({"content": content_serializer.data})
+            
+        return Response({"content": None})
 
 class SearchView(generics.CreateAPIView):
     """
