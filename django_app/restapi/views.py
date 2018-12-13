@@ -144,7 +144,8 @@ class FeedView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         # Get a list of content
-        users_following = UserExtended.objects.get(user=request.user).get_following()
+        user = UserExtended.objects.get(user=request.user)
+        users_following = user.get_following()
         # content = Content.objects.filter(owner=users_following)
         print users_following[0].user
         if users_following is not None:
@@ -152,17 +153,14 @@ class FeedView(generics.ListAPIView):
         for i in users_following:
             content = content | Content.objects.filter(owner=i.user)
 
+        user_tags = user.get_tags()
+        if users_following is None and user_tags is not None:
+            content = Content.objects.filter(tags=user_tags[0])
+        for i in user_tags:
+            content = content | Content.objects.filter(tags=i)
+
         
-        content = content.order_by("-created")
+        content = content.distinct().order_by("-created")
         content_serializer = ContentSerializer(content, many=True)
         print content
         return Response({"content": content_serializer.data})
-
-        # for users in user_following:
-
-
-    # def get_queryset(self):
-        # return UserExtended.objects.filter(pk=1)
-
-    
-        # return super(FeedView, self).get_queryset()

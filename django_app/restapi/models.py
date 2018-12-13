@@ -84,6 +84,9 @@ class UserExtended(models.Model):
     def get_following(self):
         return self.following.all()
 
+    def get_tags(self):
+        return self.tags.all()
+
         return False
 
 # Create a UserExtended instance for every User instance created
