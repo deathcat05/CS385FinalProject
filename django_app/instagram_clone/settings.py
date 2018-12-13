@@ -24,6 +24,7 @@ SECRET_KEY = 'l*g#f+kqs@^9w@&c^m@6(+(oz0v*c@m-pm8(&lxtpo^6-2zx0+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
 ALLOWED_HOSTS = ['*'] # allow all
 
 
@@ -97,11 +98,12 @@ ROOT_URLCONF = 'instagram_clone.urls'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication', # allows for browseable api to be used
+
     )
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework.authentication.BasicAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-#     )
 }
 
 TEMPLATES = [

@@ -17,20 +17,6 @@ class Tag(models.Model):
     def __str__(self):
         return "%s" % (self.tag)
 
-class Images(models.Model):
-    original_image = models.ImageField(blank=False)
-    thumbnail = models.ImageField()
-    medium = models.ImageField()
-    default = models.ImageField()
-
-
-    def save(self, *args, **kwargs):
-        if self.original_image:
-            self.default = get_thumbnail(self.original_image, '1080x1080', quality=99, format='JPEG').name
-            self.medium = get_thumbnail(self.original_image, '612x612', quality=99, format='JPEG').name
-            self.thumbnail = get_thumbnail(self.original_image, '161x161', quality=99, format='JPEG').name
-        super(Images, self).save(*args, **kwargs)
-
 class Content(models.Model):
     """
         This  endpoint  also  allows  including  comments  and  tags.
@@ -40,8 +26,21 @@ class Content(models.Model):
 
     # change the default value
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+
     description = models.CharField(max_length=255, null=True)
-    images = models.OneToOneField(Images)
+
+    # images
+    original_image = models.ImageField(blank=False)
+    thumbnail = models.ImageField()
+    medium = models.ImageField()
+    default = models.ImageField()
+
+    def save(self, *args, **kwargs):
+        if self.original_image:
+            self.default = get_thumbnail(self.original_image, '1080x1080', quality=99, format='JPEG').name
+            self.medium = get_thumbnail(self.original_image, '612x612', quality=99, format='JPEG').name
+            self.thumbnail = get_thumbnail(self.original_image, '161x161', quality=99, format='JPEG').name
+        super(Content, self).save(*args, **kwargs)
 
 
     class Meta:
@@ -53,13 +52,6 @@ class ContentTags(models.Model):
     # and a specific tag can be
     # associated with multiple
     # content.
-
-    # on_delete:
-    #   - Just an image is removed we dont want to remove the tag because
-    #       other images can be using it
-    #   - Because this table is a lookup table connecting the tag and content
-    #       if something is deleted from this table it's most likely a tag
-    #       and we always want to keep tags intact.
     tag = models.ForeignKey(Tag, on_delete=models.DO_NOTHING, related_name="content_tag")
     content = models.ForeignKey(Content, on_delete=models.DO_NOTHING, related_name="content")
 
@@ -86,6 +78,15 @@ class UserExtended(models.Model):
             other.save()
             return True
 
+    def get_followers(self):
+        return self.followers.all()
+    
+    def get_following(self):
+        return self.following.all()
+
+    def get_tags(self):
+        return self.tags.all()
+
         return False
 
 # Create a UserExtended instance for every User instance created
@@ -96,5 +97,5 @@ def create_user_extended(sender, instance, created, *args, **kargs):
 post_save.connect(create_user_extended, sender=User)
 
 class UserTag(models.Model):
-    user = models.ForeignKey(UserExtended, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserExtended, on_delete=models.CASCADE, related_name='users')
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='tags')
