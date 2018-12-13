@@ -32,7 +32,9 @@ urlpatterns = [
     url(r'^tags/', TagsView.as_view()),
     url(r'^account/', include('rest_auth.urls')),
     url(r'^account/register/', include('rest_auth.registration.urls')),
-    url(r'^subscriptions/subscribers/user/(?P<pk>[0-9]+)', SubscribersView.as_view())
+    url(r'^subscriptions/subscribers/user/(?P<pk>[0-9]+)', SubscribersView.as_view()),
+    # url(r'^subscriptions/subscribers/tag/', TagSubscribersView.as_view()),
+    url(r'^subscriptions/subscribers/tag/(?P<tag>[0-9]+)', TagSubscribersView.as_view()),
 ]
 
 urlpatterns += router.urls

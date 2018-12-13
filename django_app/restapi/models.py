@@ -88,5 +88,5 @@ def create_user_extended(sender, instance, created, *args, **kargs):
 post_save.connect(create_user_extended, sender=User)
 
 class UserTag(models.Model):
-    user = models.ForeignKey(UserExtended, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserExtended, on_delete=models.CASCADE, related_name='users')
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='tags')

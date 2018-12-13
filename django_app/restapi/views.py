@@ -124,6 +124,16 @@ class SubscriptionsView(viewsets.ModelViewSet):
         return Response({"Error": "Unable to follow"})
 
 class SubscribersView(generics.RetrieveAPIView):
-    queryset = UserExtended.objects.filter()
+    queryset = UserExtended.objects.all()
     serializer_class = SubscribersSerializer
+
+class TagSubscribersView(generics.ListAPIView):
+    lookup_field = 'tag'
+    queryset = UserTag.objects.filter()
+    serializer_class = UserTagSerializer
+    
+    def get_queryset(self):
+        tag = self.kwargs.get('tag', None)
+        users = UserTag.objects.filter(tag=tag) # we have all the users associated with the tag
+        return users
 
