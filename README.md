@@ -9,7 +9,7 @@ Insert it into your header as: <br>`Authorization:Token <token>`<br>
 ### POST /account/register/ 
 Used to register an account.
 
-	curl -X POST -H 'Content-Type: application/json' http://35.203.173.140/account/register/ -d '{"username": "<user_name>", "email": "<email>", "password1": "mypassword", "<password>": "<password>"}'
+	curl -X POST -H 'Content-Type: application/json' http://35.203.173.140/account/register/ -d '{"username": "<user_name>", "email": "<email>", "password1": "mypassword", "password2": "<password>"}'
 	
 
 ### POST /account/token/ 
