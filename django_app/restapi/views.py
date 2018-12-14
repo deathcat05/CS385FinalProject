@@ -70,6 +70,14 @@ class ContentViewSet(viewsets.ModelViewSet):
             tag = Tag.objects.get_or_create(tag=tag)
             ContentTags.objects.create(content=content, tag=tag[0])
 
+    def destroy(self, request, *args, **kwargs):
+        content = Content.objects.get(pk=kwargs['pk'])
+        if content.owner == request.user:
+            content.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        return Response({"Message": "Permission Denied"}, status=status.HTTP_403_FORBIDDEN)
+
 class TagsView(generics.ListAPIView):
     """
     This is only used for viewing/debugging purposes.

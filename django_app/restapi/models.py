@@ -23,7 +23,7 @@ class Content(models.Model):
     """
     created = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag, through='ContentTags', related_name='to_contents_tags', blank=True)
-
+    
     # change the default value
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
@@ -52,8 +52,8 @@ class ContentTags(models.Model):
     # and a specific tag can be
     # associated with multiple
     # content.
-    tag = models.ForeignKey(Tag, on_delete=models.DO_NOTHING, related_name="content_tag")
-    content = models.ForeignKey(Content, on_delete=models.DO_NOTHING, related_name="content")
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name="content_tag")
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="content")
 
     class Meta:
         db_table = 'content_tags___'
