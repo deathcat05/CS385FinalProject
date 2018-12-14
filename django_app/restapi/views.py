@@ -67,6 +67,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         if tags_data is None:
             return
         for tag in tags_data:
+            tag = tag.replace(" ", "") # strip white space
             tag = Tag.objects.get_or_create(tag=tag)
             ContentTags.objects.create(content=content, tag=tag[0])
 
