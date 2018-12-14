@@ -49,21 +49,21 @@ Retrieves the URLs of the content, it’s owner, description and tags. It does n
 
 ### PUT /content/{content id} 
 Allows replacing the description and tags of a specific piece of content. Only the owner of the content can perform this action 
-Command: Demo in class
-To use PUT /content endpoints enter the following into postman:
-Values are represented as <key>:<value>
+Command: Used by Postman
 
-This must be used as multipart/form-data
-Header
-Content-Type:multipart/form-data
-Authorization:Token <token>
-Body
-original_image: /path/to/your/jpg
-tag:tag1
-tag:tag2
-tag:tagN (last tag)
-You can have as many tags as you want
-description:A description
+To use PUT /content endpoints enter the following into postman:
+- Values are represented as `<key>:<value>`
+- <b>This must be used as `multipart/form-data`</b>
+  - Header
+    - `Content-Type:multipart/form-data`
+    - `Authorization:Token <token>`
+  - Body
+    - `original_image: /path/to/your/jpg`
+    - `tag:tag1`
+    - `tag:tag2`
+    - `tag:tagN` (last tag)
+      - You can have as many tags as you want
+    - `description:A description`
 
 Example of PUT or POST for /content on PostMan:
 
