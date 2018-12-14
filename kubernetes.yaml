@@ -32,7 +32,17 @@ spec:
                 secretKeyRef:
                   name: cloudsql
                   key: password
-            # [END cloudsql_secrets]
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws
+                  key: accesskey
+            - name: AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws
+                  key: secretkey
+              # [END cloudsql_secrets]
         ports:
         - containerPort: 8080
 

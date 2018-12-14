@@ -12,6 +12,7 @@ docutils==0.14
 futures==3.2.0
 idna==2.7
 jmespath==0.9.3
+MySQL-python==1.2.5
 oauthlib==2.1.0
 Pillow==5.3.0
 python-dateutil==2.7.5

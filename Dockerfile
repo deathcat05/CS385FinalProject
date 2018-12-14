@@ -13,11 +13,8 @@ COPY . /opt/services/djangoapp/src
 
 RUN pip install -r requirements.txt
 
-# This line will be deleted 
-RUN ./django_app/manage.py makemigrations && ./django_app/manage.py migrate
-
-# expose the port 8000
-EXPOSE 8000
+# expose the port 8080
+EXPOSE 8080
 
 # define the default command to run when starting the container
-CMD ["gunicorn", "--chdir", "django_app", "--bind", ":8000", "instagram_clone.wsgi:application"]
+CMD ["gunicorn", "--chdir", "django_app", "--bind", ":8080", "instagram_clone.wsgi:application"]
