@@ -130,6 +130,9 @@ class SubscriptionsView(viewsets.ModelViewSet):
             else:
                 return Response({"tag": "Already following"})
 
+    def retrieve(self, request, *args, **kwargs):
+        return Response({"Message":"Request not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
         return Response({"Error": "Unable to follow"})
 
 class SubscribersView(generics.RetrieveAPIView):
