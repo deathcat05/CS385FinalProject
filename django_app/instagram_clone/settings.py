@@ -65,11 +65,13 @@ INSTALLED_APPS = [
 ]
 
 
+
 # amazon S3
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY', '')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
 AWS_STORAGE_BUCKET_NAME = 'cs385finalproj'
-STATIC_URL = 'https://s3-us-west-2.amazonaws.com/cs385finalproj/'
+# MEDIA_URL = 'https://s3.amazonaws.com:443/%s/' % AWS_STORAGE_BUCKET_NAME
+STATIC_URL = 'https://s3.amazonaws.com:443/%s/' % AWS_STORAGE_BUCKET_NAME
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_DEFAULT_ACL = None
