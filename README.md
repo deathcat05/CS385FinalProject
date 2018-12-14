@@ -1,4 +1,7 @@
 # Instagram Clone
+## CDN: AWS S3
+## Runs on Kubernetes, in which each pod is a combination of django and SQL Proxy
+## Database: MySQL with master/slave 
 
 ## Authentication
 The key you are returned from `/account/register` and `/account/login` is your Authorization Token<br>
