@@ -1,12 +1,12 @@
 ## Docker 
 The Django application in this directory should be ignored, it's only for testing.
 
-
 ## To get everything started at once
 `source install.sh`
 
 ## Authentication
-The key you are returned from `/account/register` and `/account/login` is your Authorization Token<br>
+Uses token bases authentication<br>
+The key or token you are returned from `/account/register` and `/account/login` is your Authorization Token<br>
 Insert it into your header as:<br>
 `Authorization:Token <token>`<br>
 
@@ -30,15 +30,17 @@ Insert it into your header as:<br>
       - You can have as many tags as you want
     - `description:A description`
 
+## To restart and run Kubernetes
+`./restart_kubes.sh`
+
+## To restart and deploy Kubernetes
+`./restart_and_deploy.sh`
+
 ## To import dependencies into your virtualenv  
 `source venv/bin/activate  #activate venv && pip install -r requirements.txt`<br>
 <b>Your venv file must be in the project root directory `~/CS385FinalProject/`</b><br><br>
 or alternatively, run `source install.sh`<br>
 
-## To run server
+## To run server Django only
 `./runserver.sh`
 
-## TODO
-Talk about authentication<br>
-Make tags one word?<br>
-Dont allow users to access other endpoints<br>
