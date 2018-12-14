@@ -1,11 +1,17 @@
 # Instagram Clone
 
-# The following endpoints can be used to interact with the applicaton: 
+## Authentication
+The key you are returned from `/account/register` and `/account/login` is your Authorization Token<br>
+Insert it into your header as:
+<br>`Authorization:Token <token>`<br>
+
+# Endpoints 
 
 ### POST /account/register 
 Used to register an account.
 
 	curl -X POST -H 'Content-Type: application/json' http://35.203.173.140/account/register/ -d '{"username": "<user_name>", "email": "<email>", "password1": "mypassword", "<password>": "<password>"}'
+	
 
 ### POST /account/token 
 Use to login an establish a session
