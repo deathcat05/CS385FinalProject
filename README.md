@@ -6,23 +6,23 @@ Insert it into your header as: <br>`Authorization:Token <token>`<br>
 
 # Endpoints 
 
-### POST /account/register 
+### POST /account/register/ 
 Used to register an account.
 
 	curl -X POST -H 'Content-Type: application/json' http://35.203.173.140/account/register/ -d '{"username": "<user_name>", "email": "<email>", "password1": "mypassword", "<password>": "<password>"}'
 	
 
-### POST /account/token 
+### POST /account/token/ 
 Use to login an establish a session
 
 	curl -X POST -H 'Content-Type: application/json' http://35.203.173.140/account/login/ -d '{"username": "<username>", "email": "<email>", "password": "<password>"}'
 
-### DELETE /account/token 
+### DELETE /account/token/ 
 Used to delete/deactivate a token. 
 
 	curl -X DELETE -H 'Authorization: Token <token provided when creating account>' http://35.203.173.140/content/<id of post>/
 
-### POST /content 
+### POST /content/
 Allows a multipart file upload. This endpoint also allows including comments and tags. This endpoint requires an active authenticated user, which will become the owner of the content. Returns the id of the content that was added. Since the content needs to be processed, you might not be able to return the URL of the renditions on the response, case in which you should return the appropriate corresponding status code. 
 
 Command: Used by Postman 
@@ -102,12 +102,12 @@ Tag:
 
 	curl -X GET -H "Authorization: Token <token>" http://35.203.173.140/subscriptions/subscribers/tag/<tag_id>/
 
-### GET /feed 
+### GET /feed/
 Returns the feed for the currently logged in user. 
 
 	curl -X GET -H "Authorization: Token <token>" http://35.203.173.140/feed/
 
-### POST /search 
+### POST /search/
 Returns a list of content whose tags or description match a search query. The search query consists of a single string.
 
 	curl -X POST -H "Content-Type: application/json" -H "Authorization: Token <token>" -d '{"search": "<search_string>"}' http://35.203.173.140/search/
