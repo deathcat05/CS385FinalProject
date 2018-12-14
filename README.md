@@ -2,8 +2,7 @@
 
 ## Authentication
 The key you are returned from `/account/register` and `/account/login` is your Authorization Token<br>
-Insert it into your header as:
-<br>`Authorization:Token <token>`<br>
+Insert it into your header as: <br>`Authorization:Token <token>`<br>
 
 # Endpoints 
 
