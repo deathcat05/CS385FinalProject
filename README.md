@@ -43,4 +43,3 @@ or alternatively, run `source install.sh`<br>
 
 ## To run server Django only
 `./runserver.sh`
-
