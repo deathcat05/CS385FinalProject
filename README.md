@@ -94,18 +94,13 @@ Returns the list of subscriptions for the current user.
 
 ### GET /subscriptions/subscribers/{tag or username} 
 Returns the list of subscribers to the current user 
+
 User:
 
 	curl -X GET -H "Authorization: Token <token>" http://35.203.173.140/subscriptions/subscribers/user/<user_id>/
 Tag: 
 
 	curl -X GET -H "Authorization: Token <token>" http://35.203.173.140/subscriptions/subscribers/tag/<tag_id>/
-
-
-
-
-
-
 
 ### GET /feed 
 Returns the feed for the currently logged in user. 
