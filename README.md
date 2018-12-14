@@ -1,11 +1,11 @@
-README.md
+#Instagram Clone
 
 ## Create VM Instance on GCloud Platform with command: 
 	gcloud compute instances create instaclone --zone=us-west1-c --machine-type=n1-standard-1 --subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE --scopes=https://www.googleapis.com/auth/cloud-platform --tags=http-server,https-server --image=ubuntu-1804-bionic-v20180823 --image-project=ubuntu-os-cloud --boot-disk-size=20GB --boot-disk-type=pd-standard --boot-disk-device-name=instaclone
 
 ## Run the following script 
 
-## The following endpoints can be used to interact with the applicaton: 
+#The following endpoints can be used to interact with the applicaton: 
 
 ### POST /account/register 
 Used to register an account.
