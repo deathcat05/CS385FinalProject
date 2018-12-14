@@ -71,6 +71,7 @@ Example of PUT or POST for /content on PostMan:
 
 ### DELETE /content/{content id}
  Deletes a piece content and its associated comments and tags. Only the owner of the content can perform this action 
+ 
 	curl -X DELETE -H 'Authorization: Token <tokenx>' http://35.203.173.140/content/<content_id>/
 
 
@@ -78,9 +79,9 @@ Example of PUT or POST for /content on PostMan:
 Subscribes an authenticated user to either another user or tags 
 
 	curl -X POST \
--H "Authorization: Token <your_token>" \
--H "Content-Type: application/json" \
--d '{"user": {"id": <user_id>} }' http://35.203.173.140/subscriptions/
+	-H "Authorization: Token <your_token>" \
+	-H "Content-Type: application/json" \
+	-d '{"user": {"id": <user_id>} }' http://35.203.173.140/subscriptions/
 
 
 ### GET /subscriptions/ 
@@ -93,8 +94,10 @@ Returns the list of subscriptions for the current user.
 ### GET /subscriptions/subscribers/{tag or username} 
 Returns the list of subscribers to the current user 
 User:
+
 	curl -X GET -H "Authorization: Token <token>" http://35.203.173.140/subscriptions/subscribers/user/<user_id>/
 Tag: 
+
 	curl -X GET -H "Authorization: Token <token>" http://35.203.173.140/subscriptions/subscribers/tag/<tag_id>/
 
 
@@ -105,6 +108,7 @@ Tag:
 
 ### GET /feed 
 Returns the feed for the currently logged in user. 
+
 	curl -X GET -H "Authorization: Token <token>" http://35.203.173.140/feed/
 
 ### POST /search 
