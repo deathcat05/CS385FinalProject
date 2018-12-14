@@ -28,7 +28,7 @@ Used to delete/deactivate a token.
 ### POST /content/
 Allows a multipart file upload. This endpoint also allows including comments and tags. This endpoint requires an active authenticated user, which will become the owner of the content. Returns the id of the content that was added. Since the content needs to be processed, you might not be able to return the URL of the renditions on the response, case in which you should return the appropriate corresponding status code. 
 
-Command: Used by Postman 
+Command: Used within Postman 
 
 To use `POST /content` endpoints enter the following into postman:
 
