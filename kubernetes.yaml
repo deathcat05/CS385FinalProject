@@ -19,7 +19,7 @@ spec:
         # This setting makes nodes pull the docker image every time before
         # starting the pod. This is useful when debugging, but should be turned
         # off in production.
-        imagePullPolicy: Always
+        # imagePullPolicy: Always
         env:
             # [START cloudsql_secrets]
             - name: DATABASE_USER
@@ -32,6 +32,7 @@ spec:
                 secretKeyRef:
                   name: cloudsql
                   key: password
+            # [END cloudsql_secrets]
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
@@ -42,7 +43,6 @@ spec:
                 secretKeyRef:
                   name: aws
                   key: secretkey
-              # [END cloudsql_secrets]
         ports:
         - containerPort: 8080
 
@@ -93,8 +93,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
+  - protocol: TCP
+    port: 8000
     targetPort: 8080
   selector:
     app: instaclone
-# [END service]
+# # [END service]

@@ -3,3 +3,4 @@
 venv/
 django_app/restapi/migrations/*
 !django_app/restapi/migrations/__init__.py
+rare-decker-110703-118d6761a9c0.json
