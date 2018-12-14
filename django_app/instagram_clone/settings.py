@@ -75,6 +75,8 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_DEFAULT_ACL = None
 
+THUMBNAIL_FORMAT = 'JPG'
+
 # django-rest-auth
 SITE_ID = 1
 
@@ -100,7 +102,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication', # allows for browseable api to be used
+        # 'rest_framework.authentication.SessionAuthentication', # allows for browseable api to be used
 
     )
 }
