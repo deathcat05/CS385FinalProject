@@ -13,42 +13,17 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('id', 'tag',)
 
-
 class ContentSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, required=False)
-
+    owner = UsernameUserIdSerializer(read_only=True)
     def create(self, validated_data):
-        # Must pop off the tags data first
-        # tags_data = validated_data.pop('tags')
+        return Content.objects.create(owner=self.context.get('owner'), **validated_data)
 
-        # Then we can create the content object
-        content = Content.objects.create(**validated_data)
-
-        # This is iterating over a list of OrderedDicts
-        # for tag in tags_data:
-        #     # print(tag['tag']) # will print the tag string
-        #     # print(tag) # will print the OrderedDict
-        #     # print(tag.tag) # will product err - obj has no attribute tag ...
-        #
-        #     # Get or create the tag if it does not exist
-        #     print (tag)
-        #
-        #     # This made for odd behavior and unexpected results
-        #     # tag = Tag.objects.get_or_create(tag) # (<Tag: Tag object>, False)
-        #
-        #     # Needed to use the name not about the object
-        #     tag = Tag.objects.get_or_create(tag=tag['tag'])
-        #
-        #     # tag = Tag.objects.get_or_create(tag)[0] # Tag object
-        #     print(tag)
-        #     tag = tag[0]
-        #     # tag = Tag.objects.get_or_create(tag)[0].tag # CharField
-        #
-        #     # Populate the M:N table
-        #     ContentTags.objects.create(content=content, tag=tag)
-
-
-        return content
+    def update(self, instance, validated_data):
+        instance.original_image = validated_data.get('original_image', instance.original_image)
+        instance.description = validated_data.get('description', instance.description)
+        instance.save()
+        return instance
 
     class Meta:
         model = Content
@@ -78,3 +53,22 @@ class SubscriptionsSerializer(serializers.ModelSerializer):
         model = UserExtended
         fields = '__all__'
         read_only_fields = ('user', 'followers',)
+
+class SubscribersSerializer(serializers.ModelSerializer):
+    followers = UsernameUserIdSerializerUserExtended(many=True, read_only=True)
+
+    class Meta:
+        model = UserExtended
+        fields = ('followers',)
+
+class UserTagSerializer(serializers.ModelSerializer):
+    user = UsernameUserIdSerializerUserExtended(read_only=True)
+    class Meta:
+        model = UserTag
+        fields = ('user',)
+
+class FeedSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserExtended
+        fields = ('tags', 'following')

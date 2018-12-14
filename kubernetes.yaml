@@ -1,0 +1,100 @@
+# [START kubernetes_deployment]
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: instaclone
+  labels:
+    app: instaclone
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: instaclone
+    spec:
+      containers:
+      - name: instaclone-app
+        # Replace  with your project ID or use `make template`
+        image: gcr.io/rare-decker-110703/instaclone
+        # This setting makes nodes pull the docker image every time before
+        # starting the pod. This is useful when debugging, but should be turned
+        # off in production.
+        imagePullPolicy: Always
+        env:
+            # [START cloudsql_secrets]
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql
+                  key: password
+            # [END cloudsql_secrets]
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws
+                  key: secretkey
+            - name: AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws
+                  key: accesskey
+        ports:
+        - containerPort: 8080
+
+      # [START proxy_container]
+      - image: gcr.io/cloudsql-docker/gce-proxy:1.05
+        name: cloudsql-proxy
+        command: ["/cloud_sql_proxy", "--dir=/cloudsql",
+                  "-instances=rare-decker-110703:us-west1:instagramclone=tcp:3306",
+                  "-credential_file=/secrets/cloudsql/credentials.json"]
+        volumeMounts:
+          - name: cloudsql-oauth-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
+          - name: ssl-certs
+            mountPath: /etc/ssl/certs
+          - name: cloudsql
+            mountPath: /cloudsql
+      # [END proxy_container] 
+      # [START volumes]
+      volumes:
+        - name: cloudsql-oauth-credentials
+          secret:
+            secretName: cloudsql-oauth-credentials
+        - name: ssl-certs
+          hostPath:
+            path: /etc/ssl/certs
+        - name: cloudsql
+          emptyDir:
+      # [END volumes]        
+# [END kubernetes_deployment]
+
+---
+
+# [START service]
+# The instaclone service provides a load-balancing proxy over the instaclone app
+# pods. By specifying the type as a 'LoadBalancer', Container Engine will
+# create an external HTTP load balancer.
+# For more information about Services see:
+#   https://cloud.google.com/container-engine/docs/services/
+# For more information about external HTTP load balancing see:
+#   https://cloud.google.com/container-engine/docs/load-balancer
+apiVersion: v1
+kind: Service
+metadata:
+  name: instaclone
+  labels:
+    app: instaclone
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: instaclone
+# # [END service]

@@ -25,6 +25,7 @@ SECRET_KEY = 'l*g#f+kqs@^9w@&c^m@6(+(oz0v*c@m-pm8(&lxtpo^6-2zx0+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = ['*'] # allow all
 
 
@@ -64,11 +65,12 @@ INSTALLED_APPS = [
 ]
 
 
+
 # amazon S3
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY', '')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
 AWS_STORAGE_BUCKET_NAME = 'cs385finalproj'
-STATIC_URL = 'https://s3-us-west-2.amazonaws.com/cs385finalproj/'
+STATIC_URL = 'https://s3.amazonaws.com:443/%s/' % AWS_STORAGE_BUCKET_NAME
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_DEFAULT_ACL = None
@@ -90,6 +92,18 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'instagram_clone.urls'
+
+# token authentication
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication', # allows for browseable api to be used
+
+    )
+}
 
 TEMPLATES = [
     {
@@ -114,10 +128,20 @@ WSGI_APPLICATION = 'instagram_clone.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'instagramclone',
+        'USER': os.environ.get('DATABASE_USER', ''),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
+
 }
 
 # Password validation
