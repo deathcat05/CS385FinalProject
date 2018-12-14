@@ -28,19 +28,19 @@ Allows a multipart file upload. This endpoint also allows including comments and
 Command: Demo in class
 
 To use POST /content endpoints enter the following into postman:
-Values are represented as <key>:<value>
 
-This must be used as multipart/form-data
-Header
-Content-Type:multipart/form-data
-Authorization:Token <token>
-Body
-original_image: /path/to/your/jpg
-tag:tag1
-tag:tag2
-tag:tagN (last tag)
-You can have as many tags as you want
-description:A description
+- Values are represented as `<key>:<value>`
+- <b>This must be used as `multipart/form-data`</b>
+  - Header
+    - `Content-Type:multipart/form-data`
+    - `Authorization:Token <token>`
+  - Body
+    - `original_image: /path/to/your/jpg`
+    - `tag:tag1`
+    - `tag:tag2`
+    - `tag:tagN` (last tag)
+      - You can have as many tags as you want
+    - `description:A description`
 
 ### GET /content/{content id} 
 Retrieves the URLs of the content, it’s owner, description and tags. It does not require authentication. Note that this service does not return the images itself, but the URLs where the different renditions of the content can be fetched. If the renditions are not ready, then a 202 status code should be returned.
