@@ -112,14 +112,14 @@ class SubscriptionsView(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         follower = request.user
-        following = request.data.get('user')
+        following = request.data.get('user', None)
         if following:
             following = following.get('id')
             follower = UserExtended.objects.get(user=follower.id)
             followed = UserExtended.objects.get(user=follower).follow_user(user_id=following)
             return Response({"followed": followed})
 
-        tag_id = request.data.get('tag').get('id')
+        tag_id = request.data.get('tag', None).get('id', None)
         if tag_id:
             tag = Tag.objects.get(pk=tag_id)
             user = UserExtended.objects.get(pk=follower.id)
