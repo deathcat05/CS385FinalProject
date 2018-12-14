@@ -27,7 +27,7 @@ Allows a multipart file upload. This endpoint also allows including comments and
 
 Command: Used by Postman 
 
-To use POST /content endpoints enter the following into postman:
+To use `POST /content` endpoints enter the following into postman:
 
 - Values are represented as `<key>:<value>`
 - <b>This must be used as `multipart/form-data`</b>
@@ -52,7 +52,7 @@ Allows replacing the description and tags of a specific piece of content. Only t
 
 Command: Used within Postman
 
-To use PUT /content endpoints enter the following into postman:
+To use `PUT /content` endpoints enter the following into postman:
 - Values are represented as `<key>:<value>`
 - <b>This must be used as `multipart/form-data`</b>
   - Header
