@@ -1,6 +1,6 @@
 # Instagram Clone
 ## CDN: AWS S3
-## Runs on Kubernetes, in which each pod is a combination of django and SQL Proxy
+## Runs on Kubernetes, in which each pod is a combination of Django and SQL Proxy
 ## Database: MySQL with master/slave 
 
 ## Authentication
