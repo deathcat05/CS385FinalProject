@@ -114,6 +114,6 @@ Returns the feed for the currently logged in user.
 ### POST /search 
 Returns a list of content whose tags or description match a search query. The search query consists of a single string.
 
-	curl -X POST -H "Content-Type: application/json" -H "Authorization: Token c61538fef4ee0500c377faa0f43339982732c734" -d '{"search": "<search_string>"}' http://35.203.173.140/search/
+	curl -X POST -H "Content-Type: application/json" -H "Authorization: Token <token>" -d '{"search": "<search_string>"}' http://35.203.173.140/search/
 
 
