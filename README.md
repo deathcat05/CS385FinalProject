@@ -3,7 +3,51 @@
 ## Runs on Kubernetes, in which each pod is a combination of Django and SQL Proxy
 ## Database: MySQL with master/slave 
 
-## Authentication
+# Before running the application, the following components need to be active: 
+    - Google Cloud SQL Instance Setup
+        - Name: instaclone
+        - Password: <create a password>
+# Steps for running application
+
+## Create a new VM instance on Google Cloud 
+
+	 gcloud compute instances create instagramclone --zone=us-west1-c --machine-type=n1-standard-1 --subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE --scopes=https://www.googleapis.com/auth/cloud-platform --tags=http-server,https-server --image=ubuntu-1804-bionic-v20180823 --image-project=ubuntu-os-cloud --boot-disk-size=20GB --boot-disk-type=pd-standard --boot-disk-device-name=instagramclone
+
+## Install update VM & Install Docker
+  
+    make VM-update
+
+##Logout and re-login to VM Instance 
+
+## Install & Create kubernetes cluster
+
+    make kubectl-build
+
+## Establish proper authentication for AWS, and Cloud SQL
+    
+    make generate-secrets
+
+## Create Google Cloud Service Account 
+
+   make create-service_account
+
+## Clone project repository
+  
+   make git-init
+
+## Configure Docker Authorization
+   make config-auth
+
+## Build Docker Image
+   
+    make build-image
+
+## Push Docker Image
+    make push-image 
+
+## Create Kubernetes Pods
+    make create-kubectl
+# Authentication
 The key you are returned from `/account/register` and `/account/login` is your Authorization Token<br>
 Insert it into your header as: <br>`Authorization:Token <token>`<br>
 

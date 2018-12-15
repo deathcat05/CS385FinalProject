@@ -15,7 +15,7 @@ spec:
       containers:
       - name: instaclone-app
         # Replace  with your project ID or use `make template`
-        image: gcr.io/rare-decker-110703/instaclone
+        image: gcr.io/<YOUR_PROJECT_ID>/instaclone
         # This setting makes nodes pull the docker image every time before
         # starting the pod. This is useful when debugging, but should be turned
         # off in production.
@@ -50,7 +50,7 @@ spec:
       - image: gcr.io/cloudsql-docker/gce-proxy:1.05
         name: cloudsql-proxy
         command: ["/cloud_sql_proxy", "--dir=/cloudsql",
-                  "-instances=rare-decker-110703:us-west1:instagramclone=tcp:3306",
+                  "-instances=<YOUR_GCLOUD_PROJECTID>:us-west1:instagramclone=tcp:3306",
                   "-credential_file=/secrets/cloudsql/credentials.json"]
         volumeMounts:
           - name: cloudsql-oauth-credentials
