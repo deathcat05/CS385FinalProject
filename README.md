@@ -46,12 +46,12 @@
   
   Here, be sure to replace `<YOUR_JSON_CRED_FILE>1 with the .json file from SQL Cloud
 
-  gcloud auth activate-service-account --key-file=<YOUR_JSON_CRED_FILE>
+  	gcloud auth activate-service-account --key-file=<YOUR_JSON_CRED_FILE>
 
 ## Clone project repository
   
     git clone https://github.com/deathcat05/CS385FinalProject.git
-	  cd CS385FinalProject
+    cd CS385FinalProject
  
 ## Configure Docker Authorization
 
@@ -65,7 +65,8 @@
 
 ## Push Docker Image
    Here, replace `<PROJECT_ID>`, with your Google Cloud Project ID 
-   gcloud docker -- push gcr.io/<PROJECT_ID>/instaclone
+   	
+	gcloud docker -- push gcr.io/<PROJECT_ID>/instaclone
 
 ## Create Kubernetes Pods
 
