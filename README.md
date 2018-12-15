@@ -18,7 +18,7 @@
   
     make VM-update
 
-##Logout and re-login to VM Instance 
+## Logout and re-login to VM Instance 
 
 ## Install & Create kubernetes cluster
 
@@ -37,6 +37,7 @@
    make git-init
 
 ## Configure Docker Authorization
+
    make config-auth
 
 ## Build Docker Image
@@ -44,10 +45,13 @@
     make build-image
 
 ## Push Docker Image
+
     make push-image 
 
 ## Create Kubernetes Pods
+
     make create-kubectl
+
 # Authentication
 The key you are returned from `/account/register` and `/account/login` is your Authorization Token<br>
 Insert it into your header as: <br>`Authorization:Token <token>`<br>
