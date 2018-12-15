@@ -26,20 +26,21 @@
 ## Install & Create kubernetes cluster
 
     sudo snap install kubectl --classic
+
 	  gcloud container clusters create djangocluster --zone us-west1-c
 
 ## Create Cloud SQL Oath
   Here, be sure to replace `<YOUR_JSON_CRED_FILE>1 with the .json file from SQL Cloud
 
-   kubectl create secret generic cloudsql-oauth-credentials --from-file=credentials.<YOUR_JSON_CRED_FILE>
+    kubectl create secret generic cloudsql-oauth-credentials --from-file=credentials.<YOUR_JSON_CRED_FILE>
 
 ## Create Secret for SQL Password
 
-  kubectl create secret generic cloudsql --from-literal=username=$DATABASE_USER --from-literal=password=$DATABASE_PASSWORD
+    kubectl create secret generic cloudsql --from-literal=username=$DATABASE_USER --from-literal=password=$DATABASE_PASSWORD
 
 ## Create secret for AWS
 
-  kubectl create secret generic aws --from-literal=accesskey=$AWS_ACCESS_KEY --from-literal=secretkey=$AWS_SECRET_ACCESS_KEY
+    kubectl create secret generic aws --from-literal=accesskey=$AWS_ACCESS_KEY --from-literal=secretkey=$AWS_SECRET_ACCESS_KEY
 
 ## Create Google Cloud Service Account 
   
@@ -52,22 +53,23 @@
     git clone https://github.com/deathcat05/CS385FinalProject.git
 	  cd CS385FinalProject
  
-
 ## Configure Docker Authorization
 
-   make config-auth
+   gcloud auth configure-docker
 
 ## Build Docker Image
    
-    make build-image
+    Here, replace `<PROJECT_ID>`, with your Google Cloud Project ID 
+
+    docker build -t gcr.io/<PROJECT_ID>/instaclone .
 
 ## Push Docker Image
-
-    make push-image 
+   Here, replace `<PROJECT_ID>`, with your Google Cloud Project ID 
+   gcloud docker -- push gcr.io/<PROJECT_ID>/instaclone
 
 ## Create Kubernetes Pods
 
-    make create-kubectl
+    kubectl create -f kubernetes.yaml
 
 # Authentication
 The key you are returned from `/account/register` and `/account/login` is your Authorization Token<br>
