@@ -220,6 +220,29 @@ into it and save it as a .json.
 16) password set to instaclone
 17) allow any host
 18) Click create
+19) Go to your VPC network tab
+20) Click external ip addresses
+21) In the In use by column, find your instance's name
+22) In the Type column, make sure your instance's external 
+IP address is static
+- If it's ephemeral, then click and reserve a new static Address
+23) If you give it a static ip, name it instaclone and give a description
+24) Write down that static IP, you will need it later 
+25) Open the navigation menu. Under Storage, click SQL
+26) Click the name of the SQL instance that you want to connect
+27) Click the Connections tab
+28) Click Add network
+29) Enter the static IP address of your VM instance
+30) Click Done and Save
+31) In the Connect to this instance card, copy or write down the IP address listed
+32) Go to your compute engine and find your vm instance
+33) ssh into your instance
+34) sudo apt-get update
+35) sudo apt-get install mysql-client
+- Enter y for all
+36) Enter the following and replace [INSTANCE_IP_ADDR] with the IP address of your own Cloud SQL instance:
+- mysql --host=[INSTANCE_IP_ADDR] \
+    --user=root --password
 
 
 -----------------------------------------------------------------------
