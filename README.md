@@ -25,12 +25,12 @@
 
 ## Install & Create kubernetes cluster
 
-    sudo snap install kubectl --classic
+    	sudo snap install kubectl --classic
 
 	  gcloud container clusters create djangocluster --zone us-west1-c
 
 ## Create Cloud SQL Oath
-  Here, be sure to replace `<YOUR_JSON_CRED_FILE>1 with the .json file from SQL Cloud
+### Here, be sure to replace `<YOUR_JSON_CRED_FILE>` with the .json file from SQL Cloud
 
     kubectl create secret generic cloudsql-oauth-credentials --from-file=credentials.<YOUR_JSON_CRED_FILE>
 
@@ -43,8 +43,7 @@
     kubectl create secret generic aws --from-literal=accesskey=$AWS_ACCESS_KEY --from-literal=secretkey=$AWS_SECRET_ACCESS_KEY
 
 ## Create Google Cloud Service Account 
-  
-  Here, be sure to replace `<YOUR_JSON_CRED_FILE>1 with the .json file from SQL Cloud
+### Here, be sure to replace `<YOUR_JSON_CRED_FILE>` with the .json file from SQL Cloud
 
   	gcloud auth activate-service-account --key-file=<YOUR_JSON_CRED_FILE>
 
@@ -55,7 +54,7 @@
  
 ## Configure Docker Authorization
 
-   gcloud auth configure-docker
+	gcloud auth configure-docker
 
 ## Build Docker Image
    
@@ -64,7 +63,7 @@
     docker build -t gcr.io/<PROJECT_ID>/instaclone .
 
 ## Push Docker Image
-   Here, replace `<PROJECT_ID>`, with your Google Cloud Project ID 
+### Here, replace `<PROJECT_ID>`, with your Google Cloud Project ID 
    	
 	gcloud docker -- push gcr.io/<PROJECT_ID>/instaclone
 
