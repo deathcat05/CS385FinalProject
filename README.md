@@ -19,7 +19,7 @@
 
 ## Install update VM & Install Docker
   
-   sudo ./init_server.sh
+   	sudo ./init_server.sh
 
 ## Logout and re-login to VM Instance 
 
