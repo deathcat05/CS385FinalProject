@@ -8,6 +8,9 @@
         - Name: instaclone
         - Password: <create a password>
     
+    - In `kubernetes.yaml`, replace <YOUR_PROJECT_ID> with you Google Cloud Project ID 
+
+    
 # Steps for running application
 
 ## Create a new VM instance on Google Cloud 
@@ -16,25 +19,39 @@
 
 ## Install update VM & Install Docker
   
-    make VM-update
+   sudo ./init_server.sh
 
 ## Logout and re-login to VM Instance 
 
 ## Install & Create kubernetes cluster
 
-    make kubectl-build
+    sudo snap install kubectl --classic
+	  gcloud container clusters create djangocluster --zone us-west1-c
 
-## Establish proper authentication for AWS, and Cloud SQL
-    
-    make generate-secrets
+## Create Cloud SQL Oath
+  Here, be sure to replace `<YOUR_JSON_CRED_FILE>1 with the .json file from SQL Cloud
+
+   kubectl create secret generic cloudsql-oauth-credentials --from-file=credentials.<YOUR_JSON_CRED_FILE>
+
+## Create Secret for SQL Password
+
+  kubectl create secret generic cloudsql --from-literal=username=$DATABASE_USER --from-literal=password=$DATABASE_PASSWORD
+
+## Create secret for AWS
+
+  kubectl create secret generic aws --from-literal=accesskey=$AWS_ACCESS_KEY --from-literal=secretkey=$AWS_SECRET_ACCESS_KEY
 
 ## Create Google Cloud Service Account 
+  
+  Here, be sure to replace `<YOUR_JSON_CRED_FILE>1 with the .json file from SQL Cloud
 
-   make create-service_account
+  gcloud auth activate-service-account --key-file=<YOUR_JSON_CRED_FILE>
 
 ## Clone project repository
   
-   make git-init
+    git clone https://github.com/deathcat05/CS385FinalProject.git
+	  cd CS385FinalProject
+ 
 
 ## Configure Docker Authorization
 
