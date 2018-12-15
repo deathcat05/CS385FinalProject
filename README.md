@@ -7,6 +7,7 @@
     - Google Cloud SQL Instance Setup
         - Name: instaclone
         - Password: <create a password>
+    
 # Steps for running application
 
 ## Create a new VM instance on Google Cloud 

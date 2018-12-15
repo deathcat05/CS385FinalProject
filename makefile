@@ -16,3 +16,15 @@ create-service_account:
 git-init:
 	git clone https://github.com/deathcat05/CS385FinalProject.git
 	cd CS385FinalProject
+
+config-auth:
+	gcloud auth configure-docker
+
+build-image:
+	docker build -t gcr.io/$PROJECT_ID/instaclone .
+
+push-image: 
+	gcloud docker -- push gcr.io/$PROJECT_ID/instaclone
+
+create-kubectl:
+	kubectl create -f kubernetes.yaml
